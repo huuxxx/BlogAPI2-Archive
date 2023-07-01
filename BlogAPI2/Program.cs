@@ -1,18 +1,9 @@
-using Microsoft.AspNetCore.OpenApi;
-
+using Microsoft.AspNetCore.Builder;
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.MapGet("/", () => "Hello World!").WithName("Hello World").WithOpenApi();
-
+app.UseSwagger();
+app.MapGet("/", () => "Hello World!");
+app.UseSwaggerUI();
 app.Run();
