@@ -1,6 +1,6 @@
 ﻿namespace BlogAPI2.Interfaces
 {
-    public interface ILoggingService
+    public interface ILogging
     {
         // LogError
         // GetAllErrors

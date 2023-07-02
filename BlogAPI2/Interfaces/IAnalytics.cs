@@ -1,6 +1,6 @@
 ﻿namespace BlogAPI2.Interfaces
 {
-    public interface IAnalyticsService
+    public interface IAnalytics
     {
         // GetAnalytics
         // GetWeekVisits

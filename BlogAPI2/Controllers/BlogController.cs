@@ -1,27 +1,87 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using BlogAPI2.Interfaces;
+﻿using BlogAPI2.Interfaces;
 using BlogAPI2.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogAPI2.Controllers
 {
-    [ApiController, Route("api/[controller]")]
-    public class BlogController : ControllerBase, IBlogService
+    [ApiController, Route("api/[controller]/[action]")]
+    public class BlogController : ControllerBase, IBlog
     {
-        private readonly IDynamoDBContext _context;
+        private readonly IBlog _blogService;
 
-        public BlogController(IDynamoDBContext context)
+        public BlogController(IBlog blogService)
         {
-            _context = context;
+            _blogService = blogService;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateBlog(Blog blogRequest)
         {
-            //var blog = await _context.LoadAsync<Blog>(blogRequest.Id);
-            //if (blog != null) return BadRequest($"Blog with Id {blogRequest.Id} Already Exists");
-            await _context.SaveAsync(blogRequest);
-            return Ok(blogRequest);
+            var blog = await _blogService.CreateBlog(blogRequest);
+            return Ok(blog);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            var result = await _blogService.DeleteBlog(id);
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditBlog(Blog blogRequest)
+        {
+            var blog = await _blogService.EditBlog(blogRequest);
+            return Ok(blog);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllBlogs()
+        {
+            var blogs = await _blogService.GetAllBlogs();
+            return Ok(blogs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBlog(int id)
+        {
+            var blog = await _blogService.GetBlog(id);
+            return Ok(blog);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBlogLatest()
+        {
+            var blog = await _blogService.GetBlogLatest();
+            return Ok(blog);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllBlogIds()
+        {
+            var ids = await _blogService.GetAllBlogIds();
+            return Ok(ids);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
+        {
+            //throw new NotImplementedException();
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteImage(string id)
+        {
+            //throw new NotImplementedException();
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllImages()
+        {
+            //throw new NotImplementedException();
+            return Ok();
         }
     }
 }
